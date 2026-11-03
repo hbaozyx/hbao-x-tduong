@@ -1,14 +1,15 @@
 # Discord Room 24/7
 
-A Discord bot that stays in one standard voice channel even when empty.
+Bot stays connected to one standard Discord voice channel even when empty. It checks every 15 seconds and retries after a bot voice disconnect event. Discord/network/hosting outages may still interrupt it.
 
 ## Deploy to Railway
-1. Upload main.py, requirements.txt, Dockerfile, .env.example and .gitignore to a private GitHub repository (at its root).
-2. Railway > New Project > Deploy from GitHub repo > select repository.
-3. In service Variables set `DISCORD_TOKEN` to your **bot** token and `VOICE_CHANNEL_ID` to your voice channel ID.
-4. Deploy staged changes. Ensure only one replica is running.
-5. Check deployment logs for `Connected to voice channel`.
 
-The bot requires View Channel and Connect permissions. It does not need Message Content intent. It does not transmit audio. It does not require a public domain or HTTP server.
+1. Upload `main.py`, `requirements.txt`, `Dockerfile`, `.gitignore`, and `.env.example` to a GitHub repository root.
+2. Railway → New Project → Deploy from GitHub repo.
+3. Add service variables `DISCORD_TOKEN` (bot token) and `VOICE_CHANNEL_ID` (numeric channel ID).
+4. Deploy; keep one replica and inspect Deploy Logs for `Connected to voice channel`.
+5. Give the bot `View Channel` and `Connect` permissions in the voice channel.
 
-It reconnects on recoverable network failures, but cannot guarantee 100% uptime if Railway is stopped or Discord voice is unavailable.
+**Never put the real token into GitHub.** If a token was exposed, reset it in Discord Developer Portal and update Railway Variables.
+
+If the bot disconnects only when the last person leaves, check Discord Audit Log for manual/moderation disconnections and any other bot's automatic voice controls. The watchdog cannot override missing permissions or an external service repeatedly disconnecting it.
