@@ -1,15 +1,15 @@
-# Discord Room 24/7
+# Railway Discord Voice 24/7
 
-Bot stays connected to one standard Discord voice channel even when empty. It checks every 15 seconds and retries after a bot voice disconnect event. Discord/network/hosting outages may still interrupt it.
+This project keeps a bot in a **permanent** Discord voice channel. It does not require your PC or phone to stay online.
 
-## Deploy to Railway
+## Railway
+1. Replace `main.py`, `requirements.txt`, and `Dockerfile` in the GitHub repo connected to Railway.
+2. Set environment variables on Railway: `DISCORD_TOKEN` (secret bot token), `VOICE_CHANNEL_ID` (permanent voice channel ID).
+3. Start Command: `python main.py` (or let Dockerfile CMD run it).
+4. Keep 1 replica, no cron, disable App Sleeping/Serverless if enabled.
+5. Deploy and watch logs for `VOICE_CONNECTED`, `BOT_VOICE_STATE`, `Voice unhealthy`, `VOICE_SUPERVISOR_ERROR`.
+6. Test with the voice room empty for 15 minutes, then 1 hour and 24 hours.
 
-1. Upload `main.py`, `requirements.txt`, `Dockerfile`, `.gitignore`, and `.env.example` to a GitHub repository root.
-2. Railway → New Project → Deploy from GitHub repo.
-3. Add service variables `DISCORD_TOKEN` (bot token) and `VOICE_CHANNEL_ID` (numeric channel ID).
-4. Deploy; keep one replica and inspect Deploy Logs for `Connected to voice channel`.
-5. Give the bot `View Channel` and `Connect` permissions in the voice channel.
+Do not upload a token into GitHub or send it to anyone. Only one running process/service should use the same bot token. The code cannot guarantee 100% uptime against Discord or Railway outages; it attempts automatic recovery.
 
-**Never put the real token into GitHub.** If a token was exposed, reset it in Discord Developer Portal and update Railway Variables.
-
-If the bot disconnects only when the last person leaves, check Discord Audit Log for manual/moderation disconnections and any other bot's automatic voice controls. The watchdog cannot override missing permissions or an external service repeatedly disconnecting it.
+If the bot keeps dropping, capture full logs and check Discord channel Connect/View Channel permissions, RTC Region, and whether another app is logged in with the same bot token.
