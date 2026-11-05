@@ -1,12 +1,14 @@
-Discord Voice Keeper - Railway
+TDUONG VOICE 24/7 - RAILWAY
 
-1. Upload main.py and requirements.txt to the root of your GitHub repository.
-2. Railway Variables:
-   DISCORD_TOKEN = your Discord bot token
-   VOICE_CHANNEL_ID = the target voice channel ID
-3. Railway start command: python main.py
-4. Deploy and check Deploy Logs for 'Voice connected'.
+1. Upload main.py and requirements.txt to Tduong GitHub repository.
+2. Railway > Tduong service > Variables:
+   DISCORD_TOKEN = Tduong bot token
+   VOICE_CHANNEL_ID = target voice channel ID
+3. Start Command: python main.py
+4. Deploy, then check logs for GATEWAY_READY and VOICE_CONNECTED.
+5. Keep Kem service and its variables unchanged.
 
-The watchdog checks every 15 seconds, but retries with backoff on connection failures.
-If the log repeatedly says 'Starting voice handshake' then TimeoutError, investigate Railway-to-Discord voice connectivity and channel permissions; code cannot guarantee a working voice route.
-This does not create a 24/7 uptime guarantee if the hosting service stops the deployment.
+This bot automatically retries while the Railway process is running.
+It cannot prevent platform sleeping, Discord voice outages, channel deletion,
+or being kicked by another bot. If a temporary room is deleted, use a permanent channel.
+Do not run two instances of the same Discord bot token simultaneously.
