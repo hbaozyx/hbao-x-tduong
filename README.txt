@@ -1,7 +1,12 @@
-Railway deployment:
-1. Upload main.py and requirements.txt to your GitHub repo.
-2. Set Railway Variables DISCORD_TOKEN and VOICE_CHANNEL_ID.
-3. Set start command: python main.py
-4. Use a permanent standard voice channel. Give bot View Channel, Connect permissions.
-5. Keep only one service/replica connected with this token.
-6. This supervisor reconnects after disconnections but cannot prevent Discord/Railway outages or forced kicks.
+Discord Voice Keeper - Railway
+
+1. Upload main.py and requirements.txt to the root of your GitHub repository.
+2. Railway Variables:
+   DISCORD_TOKEN = your Discord bot token
+   VOICE_CHANNEL_ID = the target voice channel ID
+3. Railway start command: python main.py
+4. Deploy and check Deploy Logs for 'Voice connected'.
+
+The watchdog checks every 15 seconds, but retries with backoff on connection failures.
+If the log repeatedly says 'Starting voice handshake' then TimeoutError, investigate Railway-to-Discord voice connectivity and channel permissions; code cannot guarantee a working voice route.
+This does not create a 24/7 uptime guarantee if the hosting service stops the deployment.
